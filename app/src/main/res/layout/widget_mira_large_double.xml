@@ -36,9 +36,8 @@
 
     <TextView
         android:id="@+id/tv_age"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text=""
         android:textColor="#f0ebe0"
         android:textSize="21sp"/>

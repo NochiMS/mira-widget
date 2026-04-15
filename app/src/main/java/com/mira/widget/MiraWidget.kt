@@ -117,8 +117,14 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextColor(R.id.tv_age,  colorFor(prefs, "color_age",  "white"))
 
             // Arka plan
-            if (prefs.getString("bg", "dark") == "transparent") {
-                views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
+            when (prefs.getString("bg", "dark")) {
+                "transparent" -> views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
+                "black"  -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xEE000000.toInt())
+                "navy"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC0a0d3b.toInt())
+                "green"  -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC081a0e.toInt())
+                "purple" -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC1a0a2e.toInt())
+                "rose"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC2e0a14.toInt())
+                // "dark" → XML drawable varsayılanı kullanılır, değiştirilmez
             }
 
             return views

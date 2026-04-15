@@ -166,9 +166,9 @@
 
         </RadioGroup>
 
-        <!-- ARKA PLAN -->
+        <!-- ARKA PLAN RENGİ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="ARKA PLAN" android:textColor="#888888"
+            android:text="ARKA PLAN RENGİ" android:textColor="#888888"
             android:textSize="12sp" android:layout_marginBottom="10dp"/>
 
         <RadioGroup android:id="@+id/rg_background"
@@ -176,11 +176,26 @@
             android:orientation="vertical" android:layout_marginBottom="36dp">
 
             <RadioButton android:id="@+id/rb_dark" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Koyu" android:textColor="#f0ebe0" android:textSize="16sp"
-                android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                android:text="Koyu (varsayılan)" android:textColor="#b0a8c8" android:textSize="15sp"
+                android:checked="true" android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_black" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Siyah" android:textColor="#aaaaaa" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_navy" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lacivert" android:textColor="#5B7FCC" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_green" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu Yeşil" android:textColor="#4CAF80" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_purple" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mor" android:textColor="#C47FFF" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_rose" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu Pembe" android:textColor="#FF7FAA" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
             <RadioButton android:id="@+id/rb_transparent" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Şeffaf" android:textColor="#f0ebe0" android:textSize="16sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                android:text="Şeffaf" android:textColor="#888888" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
         </RadioGroup>
 

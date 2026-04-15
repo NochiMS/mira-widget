@@ -83,7 +83,15 @@ class MiraWidgetConfigureActivity : Activity() {
 
         // Arka plan
         val rgBg = findViewById<RadioGroup>(R.id.rg_background)
-        if (prefs.getString("bg", "dark") == "transparent") rgBg.check(R.id.rb_transparent)
+        when (prefs.getString("bg", "dark")) {
+            "black"       -> rgBg.check(R.id.rb_bg_black)
+            "navy"        -> rgBg.check(R.id.rb_bg_navy)
+            "green"       -> rgBg.check(R.id.rb_bg_green)
+            "purple"      -> rgBg.check(R.id.rb_bg_purple)
+            "rose"        -> rgBg.check(R.id.rb_bg_rose)
+            "transparent" -> rgBg.check(R.id.rb_transparent)
+            else          -> rgBg.check(R.id.rb_dark)
+        }
 
         // Kaydet
         findViewById<Button>(R.id.btn_save).setOnClickListener {
@@ -113,7 +121,15 @@ class MiraWidgetConfigureActivity : Activity() {
                 R.id.rb_align_double     -> "double"
                 else                     -> "left"
             }
-            val bg = if (rgBg.checkedRadioButtonId == R.id.rb_transparent) "transparent" else "dark"
+            val bg = when (rgBg.checkedRadioButtonId) {
+                R.id.rb_bg_black  -> "black"
+                R.id.rb_bg_navy   -> "navy"
+                R.id.rb_bg_green  -> "green"
+                R.id.rb_bg_purple -> "purple"
+                R.id.rb_bg_rose   -> "rose"
+                R.id.rb_transparent -> "transparent"
+                else -> "dark"
+            }
 
             prefs.edit()
                 .putString("emoji_mode",   emojiMode)
