@@ -62,9 +62,11 @@ class MiraWidget : AppWidgetProvider() {
 
             // Font boyutuna göre ayrı layout seç (setTextViewTextSize MIUI'de çalışmıyor)
             val layoutId = when (prefs.getString("font_$appWidgetId", "medium")) {
-                "small" -> R.layout.widget_mira_small
-                "large" -> R.layout.widget_mira_large
-                else    -> R.layout.widget_mira
+                "small"   -> R.layout.widget_mira_small
+                "large"   -> R.layout.widget_mira_large
+                "xlarge"  -> R.layout.widget_mira_xlarge
+                "xxlarge" -> R.layout.widget_mira_xxlarge
+                else      -> R.layout.widget_mira
             }
 
             val views = RemoteViews(context.packageName, layoutId)

@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:padding="28dp">
 
-        <!-- Başlık -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,14 +20,12 @@
             android:textStyle="bold"
             android:layout_marginBottom="28dp"/>
 
-        <!-- Font Boyutu -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="YAZI BOYUTU"
             android:textColor="#888888"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
             android:layout_marginBottom="10dp"/>
 
         <RadioGroup
@@ -42,43 +39,61 @@
                 android:id="@+id/rb_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Küçük  —  🌸 Mira  0y 0a 27g"
+                android:text="Küçük"
                 android:textColor="#c0bab0"
                 android:textSize="13sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
             <RadioButton
                 android:id="@+id/rb_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Orta  —  🌸 Mira  0y 0a 27g"
+                android:text="Orta"
                 android:textColor="#f0ebe0"
                 android:textSize="16sp"
                 android:checked="true"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
             <RadioButton
                 android:id="@+id/rb_large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Büyük  —  🌸 Mira  0y 0a 27g"
+                android:text="Büyük"
                 android:textColor="#f0ebe0"
                 android:textSize="20sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_xlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Çok Büyük"
+                android:textColor="#f0ebe0"
+                android:textSize="25sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_xxlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Çok Çok Büyük"
+                android:textColor="#f0ebe0"
+                android:textSize="31sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
         </RadioGroup>
 
-        <!-- Arka Plan -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ARKA PLAN"
             android:textColor="#888888"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
             android:layout_marginBottom="10dp"/>
 
         <RadioGroup
@@ -96,8 +111,8 @@
                 android:textColor="#f0ebe0"
                 android:textSize="16sp"
                 android:checked="true"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
             <RadioButton
                 android:id="@+id/rb_transparent"
@@ -106,8 +121,8 @@
                 android:text="Şeffaf"
                 android:textColor="#f0ebe0"
                 android:textSize="16sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
         </RadioGroup>
 
