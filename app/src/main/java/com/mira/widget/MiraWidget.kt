@@ -91,14 +91,25 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_age, ageText)
             if (isDouble) views.setTextViewText(R.id.tv_emoji_right, emoji)
 
-            // Emoji hizalaması (çift modda gerekmez)
+            // Emoji hizalaması — setViewPadding (native RemoteViews, MIUI uyumlu)
             if (!isDouble) {
-                val gravity = when (align) {
-                    "right_cell"  -> 21   // Gravity.RIGHT | CENTER_VERTICAL
-                    "center_cell" -> 17   // Gravity.CENTER
-                    else          -> 19   // Gravity.LEFT | CENTER_VERTICAL
+                val density = context.resources.displayMetrics.density
+                val scale   = context.resources.displayMetrics.scaledDensity
+                val (cellDp, emojiSp) = when (prefs.getString("font", "medium")) {
+                    "small"   -> 34 to 20
+                    "large"   -> 60 to 38
+                    "xlarge"  -> 74 to 48
+                    "xxlarge" -> 92 to 60
+                    else      -> 46 to 28
                 }
-                views.setInt(R.id.tv_emoji, "setGravity", gravity)
+                val cellPx  = (cellDp * density).toInt()
+                val emojiPx = (emojiSp * scale).toInt()
+                val leftPx  = when (align) {
+                    "right_cell"  -> maxOf(0, cellPx - emojiPx - (4 * density).toInt())
+                    "center_cell" -> maxOf(0, (cellPx - emojiPx) / 2)
+                    else          -> 0
+                }
+                views.setViewPadding(R.id.tv_emoji, leftPx, 0, 0, 0)
             }
 
             // Renkler
