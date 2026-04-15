@@ -73,6 +73,18 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
 
+            // Yazı rengi tercihi
+            val textColor = when (prefs.getString("color", "gold")) {
+                "white"    -> 0xFFFFFFFF.toInt()
+                "purple"   -> 0xFFC47FFF.toInt()
+                "teal"     -> 0xFF00D4B8.toInt()
+                "blue"     -> 0xFF5BA8FF.toInt()
+                "darkgray" -> 0xFF7A7A95.toInt()
+                else       -> 0xFFE8C87A.toInt()  // gold (varsayılan)
+            }
+            views.setTextColor(R.id.tv_name, textColor)
+            views.setTextColor(R.id.tv_age, textColor)
+
             // Global arka plan tercihi
             if (prefs.getString("bg", "dark") == "transparent") {
                 views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)

@@ -23,6 +23,17 @@ class MiraWidgetConfigureActivity : Activity() {
             else      -> rgFont.check(R.id.rb_medium)
         }
 
+        // Mevcut renk tercihini yükle
+        val rgColor = findViewById<RadioGroup>(R.id.rg_color)
+        when (prefs.getString("color", "gold")) {
+            "white"    -> rgColor.check(R.id.rb_white)
+            "purple"   -> rgColor.check(R.id.rb_purple)
+            "teal"     -> rgColor.check(R.id.rb_teal)
+            "blue"     -> rgColor.check(R.id.rb_blue)
+            "darkgray" -> rgColor.check(R.id.rb_darkgray)
+            else       -> rgColor.check(R.id.rb_gold)
+        }
+
         // Mevcut arka plan tercihini yükle
         val rgBg = findViewById<RadioGroup>(R.id.rg_background)
         if (prefs.getString("bg", "dark") == "transparent") {
@@ -39,9 +50,19 @@ class MiraWidgetConfigureActivity : Activity() {
             }
             val bg = if (rgBg.checkedRadioButtonId == R.id.rb_transparent) "transparent" else "dark"
 
+            val color = when (rgColor.checkedRadioButtonId) {
+                R.id.rb_white    -> "white"
+                R.id.rb_purple   -> "purple"
+                R.id.rb_teal     -> "teal"
+                R.id.rb_blue     -> "blue"
+                R.id.rb_darkgray -> "darkgray"
+                else             -> "gold"
+            }
+
             prefs.edit()
                 .putString("font", font)
                 .putString("bg", bg)
+                .putString("color", color)
                 .apply()
 
             // Tüm widgetları güncelle
