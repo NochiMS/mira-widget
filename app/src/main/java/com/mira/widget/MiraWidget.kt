@@ -8,7 +8,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.TypedValue
 import android.widget.RemoteViews
 import java.time.LocalDate
 import java.util.Calendar
@@ -59,29 +58,18 @@ class MiraWidget : AppWidgetProvider() {
             val emoji   = getStageEmoji(totalMonths)
             val ageText = "${years}y  ${months}a  ${days}g"
 
-            val views = RemoteViews(context.packageName, R.layout.widget_mira)
+            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
+            // Font boyutuna göre ayrı layout seç (setTextViewTextSize MIUI'de çalışmıyor)
+            val layoutId = when (prefs.getString("font_$appWidgetId", "medium")) {
+                "small" -> R.layout.widget_mira_small
+                "large" -> R.layout.widget_mira_large
+                else    -> R.layout.widget_mira
+            }
+
+            val views = RemoteViews(context.packageName, layoutId)
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
-
-            // Font boyutu tercihi
-            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            when (prefs.getString("font_$appWidgetId", "medium")) {
-                "small" -> {
-                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 22f)
-                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 15f)
-                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 13f)
-                }
-                "large" -> {
-                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 36f)
-                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 23f)
-                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 20f)
-                }
-                else -> { // medium
-                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 28f)
-                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 19f)
-                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 16f)
-                }
-            }
 
             // Arka plan tercihi
             if (prefs.getString("bg_$appWidgetId", "dark") == "transparent") {
