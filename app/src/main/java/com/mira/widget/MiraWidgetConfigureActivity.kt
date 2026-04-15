@@ -1,17 +1,44 @@
 package com.mira.widget
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RadioGroup
+import android.widget.TextView
 
 class MiraWidgetConfigureActivity : Activity() {
+
+    private var selectedCustomEmoji: String = ""
+    private var selectedEmojiView: TextView? = null
+
+    private val emojiList = listOf(
+        "🌸","🌱","🌼","🦋","🧸","🧭","👣",
+        "💬","🎨","🔍","🌈","📚","🎯","🌟",
+        "👶","🍼","🎀","💕","❤️","🫶","🥰",
+        "⭐","🌙","☀️","🦄","🐰","🐻","🐼",
+        "🐸","🦊","🐝","🌺","🌻","🌷","🍓",
+        "🎈","🎉","🎁","🎂","🍭","🧁","🍬",
+        "💎","🔮","🌊","🦅","✨","💫","👑",
+        "🦩","🎵","🎶","🎠","🎪","🏵️","🌍"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.widget_configure)
 
         val prefs = getSharedPreferences(MiraWidget.PREFS, MODE_PRIVATE)
+
+        // Emoji modu
+        val rgEmojiMode = findViewById<RadioGroup>(R.id.rg_emoji_mode)
+        val isCustom = prefs.getString("emoji_mode", "auto") == "custom"
+        if (isCustom) rgEmojiMode.check(R.id.rb_emoji_custom)
+        selectedCustomEmoji = prefs.getString("emoji_custom", "") ?: ""
+
+        // Emoji grid oluştur
+        buildEmojiGrid(prefs)
 
         // Font boyutu
         val rgFont = findViewById<RadioGroup>(R.id.rg_font)
@@ -23,7 +50,7 @@ class MiraWidgetConfigureActivity : Activity() {
             else      -> rgFont.check(R.id.rb_medium)
         }
 
-        // Mira ismi rengi
+        // Mira rengi
         val rgNameColor = findViewById<RadioGroup>(R.id.rg_name_color)
         when (prefs.getString("color_name", "gold")) {
             "white"    -> rgNameColor.check(R.id.rb_name_white)
@@ -34,7 +61,7 @@ class MiraWidgetConfigureActivity : Activity() {
             else       -> rgNameColor.check(R.id.rb_name_gold)
         }
 
-        // Yaş metni rengi
+        // Yaş rengi
         val rgAgeColor = findViewById<RadioGroup>(R.id.rg_age_color)
         when (prefs.getString("color_age", "white")) {
             "gold"     -> rgAgeColor.check(R.id.rb_age_gold)
@@ -45,61 +72,106 @@ class MiraWidgetConfigureActivity : Activity() {
             else       -> rgAgeColor.check(R.id.rb_age_white)
         }
 
-        // Emoji konumu
+        // Hizalama
         val rgAlign = findViewById<RadioGroup>(R.id.rg_align)
         when (prefs.getString("align", "left")) {
-            "center" -> rgAlign.check(R.id.rb_align_center)
-            "right"  -> rgAlign.check(R.id.rb_align_right)
-            else     -> rgAlign.check(R.id.rb_align_left)
+            "right_cell"  -> rgAlign.check(R.id.rb_align_right_cell)
+            "center_cell" -> rgAlign.check(R.id.rb_align_center)
+            "double"      -> rgAlign.check(R.id.rb_align_double)
+            else          -> rgAlign.check(R.id.rb_align_left)
         }
 
         // Arka plan
         val rgBg = findViewById<RadioGroup>(R.id.rg_background)
-        if (prefs.getString("bg", "dark") == "transparent") {
-            rgBg.check(R.id.rb_transparent)
-        }
+        if (prefs.getString("bg", "dark") == "transparent") rgBg.check(R.id.rb_transparent)
 
+        // Kaydet
         findViewById<Button>(R.id.btn_save).setOnClickListener {
+            val emojiMode = if (
+                rgEmojiMode.checkedRadioButtonId == R.id.rb_emoji_custom
+                && selectedCustomEmoji.isNotEmpty()
+            ) "custom" else "auto"
+
             val font = when (rgFont.checkedRadioButtonId) {
-                R.id.rb_small   -> "small"
-                R.id.rb_large   -> "large"
-                R.id.rb_xlarge  -> "xlarge"
-                R.id.rb_xxlarge -> "xxlarge"
+                R.id.rb_small   -> "small";  R.id.rb_large -> "large"
+                R.id.rb_xlarge  -> "xlarge"; R.id.rb_xxlarge -> "xxlarge"
                 else            -> "medium"
             }
             val nameColor = when (rgNameColor.checkedRadioButtonId) {
-                R.id.rb_name_white    -> "white"
-                R.id.rb_name_purple   -> "purple"
-                R.id.rb_name_teal     -> "teal"
-                R.id.rb_name_blue     -> "blue"
-                R.id.rb_name_darkgray -> "darkgray"
-                else                  -> "gold"
+                R.id.rb_name_white -> "white"; R.id.rb_name_purple -> "purple"
+                R.id.rb_name_teal  -> "teal";  R.id.rb_name_blue -> "blue"
+                R.id.rb_name_darkgray -> "darkgray"; else -> "gold"
             }
             val ageColor = when (rgAgeColor.checkedRadioButtonId) {
-                R.id.rb_age_gold     -> "gold"
-                R.id.rb_age_purple   -> "purple"
-                R.id.rb_age_teal     -> "teal"
-                R.id.rb_age_blue     -> "blue"
-                R.id.rb_age_darkgray -> "darkgray"
-                else                 -> "white"
+                R.id.rb_age_gold   -> "gold";   R.id.rb_age_purple -> "purple"
+                R.id.rb_age_teal   -> "teal";   R.id.rb_age_blue -> "blue"
+                R.id.rb_age_darkgray -> "darkgray"; else -> "white"
             }
             val align = when (rgAlign.checkedRadioButtonId) {
-                R.id.rb_align_center -> "center"
-                R.id.rb_align_right  -> "right"
-                else                 -> "left"
+                R.id.rb_align_right_cell -> "right_cell"
+                R.id.rb_align_center     -> "center_cell"
+                R.id.rb_align_double     -> "double"
+                else                     -> "left"
             }
             val bg = if (rgBg.checkedRadioButtonId == R.id.rb_transparent) "transparent" else "dark"
 
             prefs.edit()
-                .putString("font",       font)
-                .putString("color_name", nameColor)
-                .putString("color_age",  ageColor)
-                .putString("align",      align)
-                .putString("bg",         bg)
+                .putString("emoji_mode",   emojiMode)
+                .putString("emoji_custom", selectedCustomEmoji)
+                .putString("font",         font)
+                .putString("color_name",   nameColor)
+                .putString("color_age",    ageColor)
+                .putString("align",        align)
+                .putString("bg",           bg)
                 .apply()
 
             MiraWidget.updateAllWidgets(this)
             finish()
+        }
+    }
+
+    private fun buildEmojiGrid(prefs: android.content.SharedPreferences) {
+        val container = findViewById<LinearLayout>(R.id.emoji_grid_container)
+        val rgEmojiMode = findViewById<RadioGroup>(R.id.rg_emoji_mode)
+        var currentRow: LinearLayout? = null
+        val currentCustom = prefs.getString("emoji_custom", "") ?: ""
+        val isCustom = prefs.getString("emoji_mode", "auto") == "custom"
+
+        emojiList.forEachIndexed { index, emoji ->
+            if (index % 7 == 0) {
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                }
+                container.addView(row)
+                currentRow = row
+            }
+
+            val tv = TextView(this).apply {
+                text = emoji
+                textSize = 22f
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                setPadding(4, 10, 4, 10)
+
+                if (isCustom && emoji == currentCustom) {
+                    setBackgroundColor(0x44E8C87A.toInt())
+                    selectedEmojiView = this
+                }
+
+                setOnClickListener {
+                    selectedEmojiView?.setBackgroundColor(Color.TRANSPARENT)
+                    setBackgroundColor(0x44E8C87A.toInt())
+                    selectedEmojiView = this
+                    selectedCustomEmoji = emoji
+                    // Özel seçim radio'sunu otomatik işaretle
+                    rgEmojiMode.check(R.id.rb_emoji_custom)
+                }
+            }
+            currentRow?.addView(tv)
         }
     }
 }

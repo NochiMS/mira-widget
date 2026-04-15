@@ -51,57 +51,61 @@ class MiraWidget : AppWidgetProvider() {
             return Triple(years, months, days)
         }
 
+        private fun colorFor(prefs: android.content.SharedPreferences, key: String, default: String) =
+            when (prefs.getString(key, default)) {
+                "white"    -> 0xFFFFFFFF.toInt()
+                "purple"   -> 0xFFC47FFF.toInt()
+                "teal"     -> 0xFF00D4B8.toInt()
+                "blue"     -> 0xFF5BA8FF.toInt()
+                "darkgray" -> 0xFF7A7A95.toInt()
+                else       -> 0xFFE8C87A.toInt()  // gold
+            }
+
         fun buildViews(context: Context): RemoteViews {
             val today = LocalDate.now()
             val (years, months, days) = calculateAge(today)
             val totalMonths = years * 12 + months
-            val emoji   = getStageEmoji(totalMonths)
-            val ageText = "${years}y  ${months}a  ${days}g"
+            val autoEmoji = getStageEmoji(totalMonths)
+            val ageText   = "${years}y  ${months}a  ${days}g"
 
-            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val prefs  = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val align  = prefs.getString("align", "left") ?: "left"
+            val isDouble = align == "double"
 
-            fun colorFor(key: String, default: String): Int {
-                return when (prefs.getString(key, default)) {
-                    "white"    -> 0xFFFFFFFF.toInt()
-                    "purple"   -> 0xFFC47FFF.toInt()
-                    "teal"     -> 0xFF00D4B8.toInt()
-                    "blue"     -> 0xFF5BA8FF.toInt()
-                    "darkgray" -> 0xFF7A7A95.toInt()
-                    else       -> 0xFFE8C87A.toInt()  // gold
-                }
-            }
+            // Emoji içeriği — otomatik veya özel seçim
+            val emoji = if (prefs.getString("emoji_mode", "auto") == "custom")
+                prefs.getString("emoji_custom", autoEmoji) ?: autoEmoji
+            else autoEmoji
 
-            val isRight = prefs.getString("align", "left") == "right"
-
-            // Font boyutu + hizalamaya göre layout seç
+            // Font + hizalamaya göre layout
             val layoutId = when (prefs.getString("font", "medium")) {
-                "small"   -> if (isRight) R.layout.widget_mira_small_right   else R.layout.widget_mira_small
-                "large"   -> if (isRight) R.layout.widget_mira_large_right   else R.layout.widget_mira_large
-                "xlarge"  -> if (isRight) R.layout.widget_mira_xlarge_right  else R.layout.widget_mira_xlarge
-                "xxlarge" -> if (isRight) R.layout.widget_mira_xxlarge_right else R.layout.widget_mira_xxlarge
-                else      -> if (isRight) R.layout.widget_mira_right         else R.layout.widget_mira
+                "small"   -> if (isDouble) R.layout.widget_mira_small_double   else R.layout.widget_mira_small
+                "large"   -> if (isDouble) R.layout.widget_mira_large_double   else R.layout.widget_mira_large
+                "xlarge"  -> if (isDouble) R.layout.widget_mira_xlarge_double  else R.layout.widget_mira_xlarge
+                "xxlarge" -> if (isDouble) R.layout.widget_mira_xxlarge_double else R.layout.widget_mira_xxlarge
+                else      -> if (isDouble) R.layout.widget_mira_double         else R.layout.widget_mira
             }
 
             val views = RemoteViews(context.packageName, layoutId)
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
+            if (isDouble) views.setTextViewText(R.id.tv_emoji_right, emoji)
 
-            // Mira ismi rengi ve yaş metni rengi ayrı ayrı
-            views.setTextColor(R.id.tv_name, colorFor("color_name", "gold"))
-            views.setTextColor(R.id.tv_age,  colorFor("color_age",  "white"))
-
-            // Sol/Orta için padding, Sağ layout zaten ayrı
-            val density = context.resources.displayMetrics.density
-            val p2  = (2  * density).toInt()
-            val p14 = (14 * density).toInt()
-            val p28 = (28 * density).toInt()
-            when (prefs.getString("align", "left")) {
-                "left"   -> views.setViewPadding(R.id.widget_root, p2,  0, p14, 0)
-                "center" -> views.setViewPadding(R.id.widget_root, p28, 0, p28, 0)
-                // right: layout zaten ters, padding varsayılan (14dp her iki taraf)
+            // Emoji hizalaması (çift modda gerekmez)
+            if (!isDouble) {
+                val gravity = when (align) {
+                    "right_cell"  -> 21   // Gravity.RIGHT | CENTER_VERTICAL
+                    "center_cell" -> 17   // Gravity.CENTER
+                    else          -> 19   // Gravity.LEFT | CENTER_VERTICAL
+                }
+                views.setInt(R.id.tv_emoji, "setGravity", gravity)
             }
 
-            // Arka plan tercihi
+            // Renkler
+            views.setTextColor(R.id.tv_name, colorFor(prefs, "color_name", "gold"))
+            views.setTextColor(R.id.tv_age,  colorFor(prefs, "color_age",  "white"))
+
+            // Arka plan
             if (prefs.getString("bg", "dark") == "transparent") {
                 views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
             }
@@ -113,8 +117,7 @@ class MiraWidget : AppWidgetProvider() {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
             if (ids.isEmpty()) return
-            val views = buildViews(context)
-            manager.updateAppWidget(ids, views)
+            manager.updateAppWidget(ids, buildViews(context))
         }
 
         fun scheduleMidnightUpdate(context: Context) {
@@ -135,11 +138,7 @@ class MiraWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
-    ) {
+    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context))
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
@@ -147,8 +146,7 @@ class MiraWidget : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         when (intent.action) {
-            ACTION_UPDATE,
-            Intent.ACTION_BOOT_COMPLETED -> {
+            ACTION_UPDATE, Intent.ACTION_BOOT_COMPLETED -> {
                 updateAllWidgets(context)
                 try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
             }
