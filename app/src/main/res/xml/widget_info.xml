@@ -8,4 +8,5 @@
     android:resizeMode="horizontal"
     android:updatePeriodMillis="43200000"
     android:initialLayout="@layout/widget_mira"
+    android:configure="com.mira.widget.MiraWidgetConfigureActivity"
     android:widgetCategory="home_screen"/>
