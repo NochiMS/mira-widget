@@ -11,6 +11,7 @@
         android:orientation="vertical"
         android:padding="28dp">
 
+        <!-- Başlık -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="28dp"/>
 
+        <!-- YAZI BOYUTU -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,137 +37,166 @@
             android:orientation="vertical"
             android:layout_marginBottom="28dp">
 
-            <RadioButton
-                android:id="@+id/rb_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Küçük"
-                android:textColor="#c0bab0"
-                android:textSize="13sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_small"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Küçük" android:textColor="#c0bab0" android:textSize="13sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Orta"
-                android:textColor="#f0ebe0"
-                android:textSize="16sp"
-                android:checked="true"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_medium"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Orta" android:textColor="#f0ebe0" android:textSize="16sp"
+                android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Büyük"
-                android:textColor="#f0ebe0"
-                android:textSize="20sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_large"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Büyük" android:textColor="#f0ebe0" android:textSize="20sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_xlarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Çok Büyük"
-                android:textColor="#f0ebe0"
-                android:textSize="25sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_xlarge"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Çok Büyük" android:textColor="#f0ebe0" android:textSize="25sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_xxlarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Çok Çok Büyük"
-                android:textColor="#f0ebe0"
-                android:textSize="31sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_xxlarge"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Çok Çok Büyük" android:textColor="#f0ebe0" android:textSize="31sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
         </RadioGroup>
 
+        <!-- MİRA İSMİ RENGİ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YAZI RENGİ"
+            android:text="MİRA İSMİ RENGİ"
             android:textColor="#888888"
             android:textSize="12sp"
             android:layout_marginBottom="10dp"/>
 
         <RadioGroup
-            android:id="@+id/rg_color"
+            android:id="@+id/rg_name_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="28dp">
 
-            <RadioButton
-                android:id="@+id/rb_gold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Altın"
-                android:textColor="#E8C87A"
-                android:textSize="17sp"
-                android:checked="true"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_gold"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Altın" android:textColor="#E8C87A" android:textSize="17sp"
+                android:checked="true" android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Beyaz"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_white"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Beyaz" android:textColor="#FFFFFF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_purple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mor"
-                android:textColor="#C47FFF"
-                android:textSize="17sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_purple"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mor" android:textColor="#C47FFF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_teal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Turkuaz"
-                android:textColor="#00D4B8"
-                android:textSize="17sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_teal"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Turkuaz" android:textColor="#00D4B8" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mavi"
-                android:textColor="#5BA8FF"
-                android:textSize="17sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_blue"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mavi" android:textColor="#5BA8FF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_darkgray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Koyu Gri"
-                android:textColor="#7A7A95"
-                android:textSize="17sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_name_darkgray"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu Gri" android:textColor="#7A7A95" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
         </RadioGroup>
 
+        <!-- YAŞ METNİ RENGİ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YAŞ METNİ RENGİ"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_age_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="28dp">
+
+            <RadioButton android:id="@+id/rb_age_gold"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Altın" android:textColor="#E8C87A" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+            <RadioButton android:id="@+id/rb_age_white"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Beyaz" android:textColor="#FFFFFF" android:textSize="17sp"
+                android:checked="true" android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+            <RadioButton android:id="@+id/rb_age_purple"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mor" android:textColor="#C47FFF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+            <RadioButton android:id="@+id/rb_age_teal"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Turkuaz" android:textColor="#00D4B8" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+            <RadioButton android:id="@+id/rb_age_blue"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mavi" android:textColor="#5BA8FF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+            <RadioButton android:id="@+id/rb_age_darkgray"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu Gri" android:textColor="#7A7A95" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+
+        </RadioGroup>
+
+        <!-- EMOJİ KONUMU -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EMOJİ KONUMU"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_align"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="28dp">
+
+            <RadioButton android:id="@+id/rb_align_left"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🌸 Sol  —  🌸 Mira  |  0y 0a 27g"
+                android:textColor="#f0ebe0" android:textSize="15sp"
+                android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
+
+            <RadioButton android:id="@+id/rb_align_center"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Orta  —  (geniş padding)"
+                android:textColor="#f0ebe0" android:textSize="15sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
+
+            <RadioButton android:id="@+id/rb_align_right"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Sağ  —  Mira  |  0y 0a 27g  🌸"
+                android:textColor="#f0ebe0" android:textSize="15sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
+
+        </RadioGroup>
+
+        <!-- ARKA PLAN -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,26 +212,15 @@
             android:orientation="vertical"
             android:layout_marginBottom="36dp">
 
-            <RadioButton
-                android:id="@+id/rb_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Koyu"
-                android:textColor="#f0ebe0"
-                android:textSize="16sp"
-                android:checked="true"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_dark"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu" android:textColor="#f0ebe0" android:textSize="16sp"
+                android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
-            <RadioButton
-                android:id="@+id/rb_transparent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Şeffaf"
-                android:textColor="#f0ebe0"
-                android:textSize="16sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_transparent"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Şeffaf" android:textColor="#f0ebe0" android:textSize="16sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
 
         </RadioGroup>
 

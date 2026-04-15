@@ -13,7 +13,7 @@ class MiraWidgetConfigureActivity : Activity() {
 
         val prefs = getSharedPreferences(MiraWidget.PREFS, MODE_PRIVATE)
 
-        // Mevcut font tercihini yükle
+        // Font boyutu
         val rgFont = findViewById<RadioGroup>(R.id.rg_font)
         when (prefs.getString("font", "medium")) {
             "small"   -> rgFont.check(R.id.rb_small)
@@ -23,18 +23,37 @@ class MiraWidgetConfigureActivity : Activity() {
             else      -> rgFont.check(R.id.rb_medium)
         }
 
-        // Mevcut renk tercihini yükle
-        val rgColor = findViewById<RadioGroup>(R.id.rg_color)
-        when (prefs.getString("color", "gold")) {
-            "white"    -> rgColor.check(R.id.rb_white)
-            "purple"   -> rgColor.check(R.id.rb_purple)
-            "teal"     -> rgColor.check(R.id.rb_teal)
-            "blue"     -> rgColor.check(R.id.rb_blue)
-            "darkgray" -> rgColor.check(R.id.rb_darkgray)
-            else       -> rgColor.check(R.id.rb_gold)
+        // Mira ismi rengi
+        val rgNameColor = findViewById<RadioGroup>(R.id.rg_name_color)
+        when (prefs.getString("color_name", "gold")) {
+            "white"    -> rgNameColor.check(R.id.rb_name_white)
+            "purple"   -> rgNameColor.check(R.id.rb_name_purple)
+            "teal"     -> rgNameColor.check(R.id.rb_name_teal)
+            "blue"     -> rgNameColor.check(R.id.rb_name_blue)
+            "darkgray" -> rgNameColor.check(R.id.rb_name_darkgray)
+            else       -> rgNameColor.check(R.id.rb_name_gold)
         }
 
-        // Mevcut arka plan tercihini yükle
+        // Yaş metni rengi
+        val rgAgeColor = findViewById<RadioGroup>(R.id.rg_age_color)
+        when (prefs.getString("color_age", "white")) {
+            "gold"     -> rgAgeColor.check(R.id.rb_age_gold)
+            "purple"   -> rgAgeColor.check(R.id.rb_age_purple)
+            "teal"     -> rgAgeColor.check(R.id.rb_age_teal)
+            "blue"     -> rgAgeColor.check(R.id.rb_age_blue)
+            "darkgray" -> rgAgeColor.check(R.id.rb_age_darkgray)
+            else       -> rgAgeColor.check(R.id.rb_age_white)
+        }
+
+        // Emoji konumu
+        val rgAlign = findViewById<RadioGroup>(R.id.rg_align)
+        when (prefs.getString("align", "left")) {
+            "center" -> rgAlign.check(R.id.rb_align_center)
+            "right"  -> rgAlign.check(R.id.rb_align_right)
+            else     -> rgAlign.check(R.id.rb_align_left)
+        }
+
+        // Arka plan
         val rgBg = findViewById<RadioGroup>(R.id.rg_background)
         if (prefs.getString("bg", "dark") == "transparent") {
             rgBg.check(R.id.rb_transparent)
@@ -48,26 +67,38 @@ class MiraWidgetConfigureActivity : Activity() {
                 R.id.rb_xxlarge -> "xxlarge"
                 else            -> "medium"
             }
+            val nameColor = when (rgNameColor.checkedRadioButtonId) {
+                R.id.rb_name_white    -> "white"
+                R.id.rb_name_purple   -> "purple"
+                R.id.rb_name_teal     -> "teal"
+                R.id.rb_name_blue     -> "blue"
+                R.id.rb_name_darkgray -> "darkgray"
+                else                  -> "gold"
+            }
+            val ageColor = when (rgAgeColor.checkedRadioButtonId) {
+                R.id.rb_age_gold     -> "gold"
+                R.id.rb_age_purple   -> "purple"
+                R.id.rb_age_teal     -> "teal"
+                R.id.rb_age_blue     -> "blue"
+                R.id.rb_age_darkgray -> "darkgray"
+                else                 -> "white"
+            }
+            val align = when (rgAlign.checkedRadioButtonId) {
+                R.id.rb_align_center -> "center"
+                R.id.rb_align_right  -> "right"
+                else                 -> "left"
+            }
             val bg = if (rgBg.checkedRadioButtonId == R.id.rb_transparent) "transparent" else "dark"
 
-            val color = when (rgColor.checkedRadioButtonId) {
-                R.id.rb_white    -> "white"
-                R.id.rb_purple   -> "purple"
-                R.id.rb_teal     -> "teal"
-                R.id.rb_blue     -> "blue"
-                R.id.rb_darkgray -> "darkgray"
-                else             -> "gold"
-            }
-
             prefs.edit()
-                .putString("font", font)
-                .putString("bg", bg)
-                .putString("color", color)
+                .putString("font",       font)
+                .putString("color_name", nameColor)
+                .putString("color_age",  ageColor)
+                .putString("align",      align)
+                .putString("bg",         bg)
                 .apply()
 
-            // Tüm widgetları güncelle
             MiraWidget.updateAllWidgets(this)
-
             finish()
         }
     }

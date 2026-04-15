@@ -60,32 +60,48 @@ class MiraWidget : AppWidgetProvider() {
 
             val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-            // Global font tercihi — ayrı layout dosyası (setTextViewTextSize MIUI'de çalışmıyor)
+            fun colorFor(key: String, default: String): Int {
+                return when (prefs.getString(key, default)) {
+                    "white"    -> 0xFFFFFFFF.toInt()
+                    "purple"   -> 0xFFC47FFF.toInt()
+                    "teal"     -> 0xFF00D4B8.toInt()
+                    "blue"     -> 0xFF5BA8FF.toInt()
+                    "darkgray" -> 0xFF7A7A95.toInt()
+                    else       -> 0xFFE8C87A.toInt()  // gold
+                }
+            }
+
+            val isRight = prefs.getString("align", "left") == "right"
+
+            // Font boyutu + hizalamaya göre layout seç
             val layoutId = when (prefs.getString("font", "medium")) {
-                "small"   -> R.layout.widget_mira_small
-                "large"   -> R.layout.widget_mira_large
-                "xlarge"  -> R.layout.widget_mira_xlarge
-                "xxlarge" -> R.layout.widget_mira_xxlarge
-                else      -> R.layout.widget_mira
+                "small"   -> if (isRight) R.layout.widget_mira_small_right   else R.layout.widget_mira_small
+                "large"   -> if (isRight) R.layout.widget_mira_large_right   else R.layout.widget_mira_large
+                "xlarge"  -> if (isRight) R.layout.widget_mira_xlarge_right  else R.layout.widget_mira_xlarge
+                "xxlarge" -> if (isRight) R.layout.widget_mira_xxlarge_right else R.layout.widget_mira_xxlarge
+                else      -> if (isRight) R.layout.widget_mira_right         else R.layout.widget_mira
             }
 
             val views = RemoteViews(context.packageName, layoutId)
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
 
-            // Yazı rengi tercihi
-            val textColor = when (prefs.getString("color", "gold")) {
-                "white"    -> 0xFFFFFFFF.toInt()
-                "purple"   -> 0xFFC47FFF.toInt()
-                "teal"     -> 0xFF00D4B8.toInt()
-                "blue"     -> 0xFF5BA8FF.toInt()
-                "darkgray" -> 0xFF7A7A95.toInt()
-                else       -> 0xFFE8C87A.toInt()  // gold (varsayılan)
-            }
-            views.setTextColor(R.id.tv_name, textColor)
-            views.setTextColor(R.id.tv_age, textColor)
+            // Mira ismi rengi ve yaş metni rengi ayrı ayrı
+            views.setTextColor(R.id.tv_name, colorFor("color_name", "gold"))
+            views.setTextColor(R.id.tv_age,  colorFor("color_age",  "white"))
 
-            // Global arka plan tercihi
+            // Sol/Orta için padding, Sağ layout zaten ayrı
+            val density = context.resources.displayMetrics.density
+            val p2  = (2  * density).toInt()
+            val p14 = (14 * density).toInt()
+            val p28 = (28 * density).toInt()
+            when (prefs.getString("align", "left")) {
+                "left"   -> views.setViewPadding(R.id.widget_root, p2,  0, p14, 0)
+                "center" -> views.setViewPadding(R.id.widget_root, p28, 0, p28, 0)
+                // right: layout zaten ters, padding varsayılan (14dp her iki taraf)
+            }
+
+            // Arka plan tercihi
             if (prefs.getString("bg", "dark") == "transparent") {
                 views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
             }
