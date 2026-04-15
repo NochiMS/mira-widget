@@ -51,7 +51,7 @@ class MiraWidget : AppWidgetProvider() {
             return Triple(years, months, days)
         }
 
-        fun buildViews(context: Context, appWidgetId: Int): RemoteViews {
+        fun buildViews(context: Context): RemoteViews {
             val today = LocalDate.now()
             val (years, months, days) = calculateAge(today)
             val totalMonths = years * 12 + months
@@ -60,8 +60,8 @@ class MiraWidget : AppWidgetProvider() {
 
             val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-            // Font boyutuna göre ayrı layout seç (setTextViewTextSize MIUI'de çalışmıyor)
-            val layoutId = when (prefs.getString("font_$appWidgetId", "medium")) {
+            // Global font tercihi — ayrı layout dosyası (setTextViewTextSize MIUI'de çalışmıyor)
+            val layoutId = when (prefs.getString("font", "medium")) {
                 "small"   -> R.layout.widget_mira_small
                 "large"   -> R.layout.widget_mira_large
                 "xlarge"  -> R.layout.widget_mira_xlarge
@@ -73,21 +73,10 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
 
-            // Arka plan tercihi
-            if (prefs.getString("bg_$appWidgetId", "dark") == "transparent") {
+            // Global arka plan tercihi
+            if (prefs.getString("bg", "dark") == "transparent") {
                 views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
             }
-
-            // Widgete tıklayınca ayar ekranı aç
-            val settingsIntent = Intent(context, MiraWidgetConfigureActivity::class.java).apply {
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-            val settingsPi = PendingIntent.getActivity(
-                context, appWidgetId, settingsIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            views.setOnClickPendingIntent(R.id.widget_root, settingsPi)
 
             return views
         }
@@ -96,9 +85,8 @@ class MiraWidget : AppWidgetProvider() {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
             if (ids.isEmpty()) return
-            for (id in ids) {
-                manager.updateAppWidget(id, buildViews(context, id))
-            }
+            val views = buildViews(context)
+            manager.updateAppWidget(ids, views)
         }
 
         fun scheduleMidnightUpdate(context: Context) {
@@ -124,9 +112,7 @@ class MiraWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        for (id in appWidgetIds) {
-            appWidgetManager.updateAppWidget(id, buildViews(context, id))
-        }
+        appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context))
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
 
@@ -144,15 +130,6 @@ class MiraWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         updateAllWidgets(context)
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
-    }
-
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        val editor = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-        for (id in appWidgetIds) {
-            editor.remove("bg_$id")
-            editor.remove("font_$id")
-        }
-        editor.apply()
     }
 
     override fun onDisabled(context: Context) {

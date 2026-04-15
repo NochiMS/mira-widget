@@ -20,11 +20,14 @@
                 android:resource="@xml/widget_info"/>
         </receiver>
 
+        <!-- Uygulama ikonuna tıklayınca ayar ekranı açılır -->
         <activity
             android:name=".MiraWidgetConfigureActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Mira Widget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
