@@ -138,10 +138,12 @@ class MiraWidget : AppWidgetProvider() {
         }
 
         fun updateAllWidgets(context: Context) {
-            val manager = AppWidgetManager.getInstance(context)
-            val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
-            if (ids.isEmpty()) return
-            manager.updateAppWidget(ids, buildViews(context))
+            try {
+                val manager = AppWidgetManager.getInstance(context)
+                val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
+                if (ids.isEmpty()) return
+                manager.updateAppWidget(ids, buildViews(context))
+            } catch (_: Exception) { }
         }
 
         fun scheduleMidnightUpdate(context: Context) {
@@ -163,14 +165,16 @@ class MiraWidget : AppWidgetProvider() {
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context))
+        try { appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context)) } catch (_: Exception) { }
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         when (intent.action) {
-            ACTION_UPDATE, Intent.ACTION_BOOT_COMPLETED -> {
+            ACTION_UPDATE,
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED -> {
                 updateAllWidgets(context)
                 try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
             }
