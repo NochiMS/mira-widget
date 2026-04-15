@@ -102,10 +102,10 @@ class MiraWidget : AppWidgetProvider() {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            alarm.setWindow(
+            // setAndAllowWhileIdle: Doze modunu deler, özel izin gerekmez, max ~10 dk sapma
+            alarm.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 midnight.timeInMillis,
-                30 * 60 * 1000L,  // 30 dakikalık pencere
                 pi
             )
         }
