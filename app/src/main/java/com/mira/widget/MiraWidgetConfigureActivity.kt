@@ -58,6 +58,10 @@ class MiraWidgetConfigureActivity : Activity() {
             "teal"     -> rgNameColor.check(R.id.rb_name_teal)
             "blue"     -> rgNameColor.check(R.id.rb_name_blue)
             "darkgray" -> rgNameColor.check(R.id.rb_name_darkgray)
+            "pink"     -> rgNameColor.check(R.id.rb_name_pink)
+            "orange"   -> rgNameColor.check(R.id.rb_name_orange)
+            "mint"     -> rgNameColor.check(R.id.rb_name_mint)
+            "yellow"   -> rgNameColor.check(R.id.rb_name_yellow)
             else       -> rgNameColor.check(R.id.rb_name_gold)
         }
 
@@ -69,6 +73,10 @@ class MiraWidgetConfigureActivity : Activity() {
             "teal"     -> rgAgeColor.check(R.id.rb_age_teal)
             "blue"     -> rgAgeColor.check(R.id.rb_age_blue)
             "darkgray" -> rgAgeColor.check(R.id.rb_age_darkgray)
+            "pink"     -> rgAgeColor.check(R.id.rb_age_pink)
+            "orange"   -> rgAgeColor.check(R.id.rb_age_orange)
+            "mint"     -> rgAgeColor.check(R.id.rb_age_mint)
+            "yellow"   -> rgAgeColor.check(R.id.rb_age_yellow)
             else       -> rgAgeColor.check(R.id.rb_age_white)
         }
 
@@ -89,6 +97,9 @@ class MiraWidgetConfigureActivity : Activity() {
             "green"       -> rgBg.check(R.id.rb_bg_green)
             "purple"      -> rgBg.check(R.id.rb_bg_purple)
             "rose"        -> rgBg.check(R.id.rb_bg_rose)
+            "teal"        -> rgBg.check(R.id.rb_bg_teal)
+            "orange"      -> rgBg.check(R.id.rb_bg_orange)
+            "gray"        -> rgBg.check(R.id.rb_bg_gray)
             "transparent" -> rgBg.check(R.id.rb_transparent)
             else          -> rgBg.check(R.id.rb_dark)
         }
@@ -106,14 +117,20 @@ class MiraWidgetConfigureActivity : Activity() {
                 else            -> "medium"
             }
             val nameColor = when (rgNameColor.checkedRadioButtonId) {
-                R.id.rb_name_white -> "white"; R.id.rb_name_purple -> "purple"
-                R.id.rb_name_teal  -> "teal";  R.id.rb_name_blue -> "blue"
-                R.id.rb_name_darkgray -> "darkgray"; else -> "gold"
+                R.id.rb_name_white    -> "white";  R.id.rb_name_purple -> "purple"
+                R.id.rb_name_teal     -> "teal";   R.id.rb_name_blue -> "blue"
+                R.id.rb_name_darkgray -> "darkgray"
+                R.id.rb_name_pink     -> "pink";   R.id.rb_name_orange -> "orange"
+                R.id.rb_name_mint     -> "mint";   R.id.rb_name_yellow -> "yellow"
+                else -> "gold"
             }
             val ageColor = when (rgAgeColor.checkedRadioButtonId) {
-                R.id.rb_age_gold   -> "gold";   R.id.rb_age_purple -> "purple"
-                R.id.rb_age_teal   -> "teal";   R.id.rb_age_blue -> "blue"
-                R.id.rb_age_darkgray -> "darkgray"; else -> "white"
+                R.id.rb_age_gold     -> "gold";   R.id.rb_age_purple -> "purple"
+                R.id.rb_age_teal     -> "teal";   R.id.rb_age_blue -> "blue"
+                R.id.rb_age_darkgray -> "darkgray"
+                R.id.rb_age_pink     -> "pink";   R.id.rb_age_orange -> "orange"
+                R.id.rb_age_mint     -> "mint";   R.id.rb_age_yellow -> "yellow"
+                else -> "white"
             }
             val align = when (rgAlign.checkedRadioButtonId) {
                 R.id.rb_align_right_cell -> "right_cell"
@@ -127,6 +144,9 @@ class MiraWidgetConfigureActivity : Activity() {
                 R.id.rb_bg_green  -> "green"
                 R.id.rb_bg_purple -> "purple"
                 R.id.rb_bg_rose   -> "rose"
+                R.id.rb_bg_teal   -> "teal"
+                R.id.rb_bg_orange -> "orange"
+                R.id.rb_bg_gray   -> "gray"
                 R.id.rb_transparent -> "transparent"
                 else -> "dark"
             }

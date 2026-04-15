@@ -58,6 +58,10 @@ class MiraWidget : AppWidgetProvider() {
                 "teal"     -> 0xFF00D4B8.toInt()
                 "blue"     -> 0xFF5BA8FF.toInt()
                 "darkgray" -> 0xFF7A7A95.toInt()
+                "pink"     -> 0xFFFF90C0.toInt()
+                "orange"   -> 0xFFFFA060.toInt()
+                "mint"     -> 0xFF70FFD0.toInt()
+                "yellow"   -> 0xFFFFEE55.toInt()
                 else       -> 0xFFE8C87A.toInt()  // gold
             }
 
@@ -124,6 +128,9 @@ class MiraWidget : AppWidgetProvider() {
                 "green"  -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC081a0e.toInt())
                 "purple" -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC1a0a2e.toInt())
                 "rose"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC2e0a14.toInt())
+                "teal"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC051a1a.toInt())
+                "orange" -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC1f0800.toInt())
+                "gray"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC252535.toInt())
                 // "dark" → XML drawable varsayılanı kullanılır, değiştirilmez
             }
 
