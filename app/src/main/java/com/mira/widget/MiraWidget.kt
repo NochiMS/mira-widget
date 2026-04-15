@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.TypedValue
 import android.widget.RemoteViews
 import java.time.LocalDate
 import java.util.Calendar
@@ -16,48 +17,42 @@ class MiraWidget : AppWidgetProvider() {
 
     companion object {
         private const val ACTION_UPDATE = "com.mira.widget.UPDATE"
-        private const val PREFS         = "mira_prefs"
+        const val PREFS = "mira_prefs"
 
-        // Mira'nın doğum tarihi: 19 Mart 2026
         private const val BIRTH_YEAR  = 2026
         private const val BIRTH_MONTH = 3
         private const val BIRTH_DAY   = 19
 
         private fun getStageEmoji(totalMonths: Int): String = when {
-            totalMonths < 1   -> "🌸"  //  0– 1 ay  : Doğum
-            totalMonths < 2   -> "🌱"  //  1– 2 ay  : Yenidoğan
-            totalMonths < 4   -> "🌼"  //  2– 4 ay  : İlk gülüşler
-            totalMonths < 6   -> "🦋"  //  4– 6 ay  : Motor dönüşümü
-            totalMonths < 9   -> "🧸"  //  6– 9 ay  : Oturma ve oyun
-            totalMonths < 12  -> "🧭"  //  9–12 ay  : Keşif dönemi
-            totalMonths < 18  -> "👣"  // 12–18 ay  : İlk adımlar
-            totalMonths < 24  -> "💬"  // 18–24 ay  : Dil patlaması
-            totalMonths < 36  -> "🎨"  //  2– 3 yaş : Hayal gücü
-            totalMonths < 48  -> "🔍"  //  3– 4 yaş : Neden çağı
-            totalMonths < 60  -> "🌈"  //  4– 5 yaş : Okul öncesi
-            totalMonths < 72  -> "📚"  //  5– 6 yaş : İlkokul
-            totalMonths < 96  -> "🎯"  //  6– 8 yaş : Okul çağı
-            else              -> "🌟"  //  8–10 yaş : Parlayan yıldız
+            totalMonths < 1   -> "🌸"
+            totalMonths < 2   -> "🌱"
+            totalMonths < 4   -> "🌼"
+            totalMonths < 6   -> "🦋"
+            totalMonths < 9   -> "🧸"
+            totalMonths < 12  -> "🧭"
+            totalMonths < 18  -> "👣"
+            totalMonths < 24  -> "💬"
+            totalMonths < 36  -> "🎨"
+            totalMonths < 48  -> "🔍"
+            totalMonths < 60  -> "🌈"
+            totalMonths < 72  -> "📚"
+            totalMonths < 96  -> "🎯"
+            else              -> "🌟"
         }
 
         private fun calculateAge(today: LocalDate): Triple<Int, Int, Int> {
             var years  = today.year       - BIRTH_YEAR
             var months = today.monthValue - BIRTH_MONTH
             var days   = today.dayOfMonth - BIRTH_DAY
-
             if (days < 0) {
                 months--
-                val lastDayOfPrevMonth = today.withDayOfMonth(1).minusDays(1)
-                days += lastDayOfPrevMonth.dayOfMonth
+                days += today.withDayOfMonth(1).minusDays(1).dayOfMonth
             }
-            if (months < 0) {
-                years--
-                months += 12
-            }
+            if (months < 0) { years--; months += 12 }
             return Triple(years, months, days)
         }
 
-        fun buildViews(context: Context, appWidgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID): RemoteViews {
+        fun buildViews(context: Context, appWidgetId: Int): RemoteViews {
             val today = LocalDate.now()
             val (years, months, days) = calculateAge(today)
             val totalMonths = years * 12 + months
@@ -68,12 +63,41 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
 
-            // Arka plan tercihi
+            // Font boyutu tercihi
             val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            val bg = prefs.getString("bg_$appWidgetId", "dark")
-            if (bg == "transparent") {
+            when (prefs.getString("font_$appWidgetId", "medium")) {
+                "small" -> {
+                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 22f)
+                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 15f)
+                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 13f)
+                }
+                "large" -> {
+                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 36f)
+                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 23f)
+                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 20f)
+                }
+                else -> { // medium
+                    views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, 28f)
+                    views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, 19f)
+                    views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, 16f)
+                }
+            }
+
+            // Arka plan tercihi
+            if (prefs.getString("bg_$appWidgetId", "dark") == "transparent") {
                 views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
             }
+
+            // Widgete tıklayınca ayar ekranı aç
+            val settingsIntent = Intent(context, MiraWidgetConfigureActivity::class.java).apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            val settingsPi = PendingIntent.getActivity(
+                context, appWidgetId, settingsIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.widget_root, settingsPi)
 
             return views
         }
@@ -101,12 +125,7 @@ class MiraWidget : AppWidgetProvider() {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            // setAndAllowWhileIdle: Doze modunu deler, özel izin gerekmez
-            alarm.setAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                midnight.timeInMillis,
-                pi
-            )
+            alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, midnight.timeInMillis, pi)
         }
     }
 
@@ -137,10 +156,12 @@ class MiraWidget : AppWidgetProvider() {
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
 
-    // Widget silinince o ID'nin tercihini temizle
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         val editor = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-        for (id in appWidgetIds) editor.remove("bg_$id")
+        for (id in appWidgetIds) {
+            editor.remove("bg_$id")
+            editor.remove("font_$id")
+        }
         editor.apply()
     }
 

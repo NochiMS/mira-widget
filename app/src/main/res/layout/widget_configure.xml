@@ -1,67 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
     android:background="#1a0a2e">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🌸  Mira Widget"
-        android:textColor="#e8c87a"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Arka Plan"
-        android:textColor="#aaaaaa"
-        android:textSize="13sp"
-        android:layout_marginBottom="8dp"/>
-
-    <RadioGroup
-        android:id="@+id/rg_background"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="32dp">
+        android:padding="28dp">
 
-        <RadioButton
-            android:id="@+id/rb_dark"
+        <!-- Başlık -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Koyu"
-            android:textColor="#f0ebe0"
-            android:textSize="16sp"
-            android:checked="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:text="🌸  Mira Widget"
+            android:textColor="#e8c87a"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="28dp"/>
 
-        <RadioButton
-            android:id="@+id/rb_transparent"
+        <!-- Font Boyutu -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Şeffaf"
-            android:textColor="#f0ebe0"
+            android:text="YAZI BOYUTU"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="28dp">
+
+            <RadioButton
+                android:id="@+id/rb_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Küçük  —  🌸 Mira  0y 0a 27g"
+                android:textColor="#c0bab0"
+                android:textSize="13sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orta  —  🌸 Mira  0y 0a 27g"
+                android:textColor="#f0ebe0"
+                android:textSize="16sp"
+                android:checked="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Büyük  —  🌸 Mira  0y 0a 27g"
+                android:textColor="#f0ebe0"
+                android:textSize="20sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+        </RadioGroup>
+
+        <!-- Arka Plan -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ARKA PLAN"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="10dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="36dp">
+
+            <RadioButton
+                android:id="@+id/rb_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Koyu"
+                android:textColor="#f0ebe0"
+                android:textSize="16sp"
+                android:checked="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Şeffaf"
+                android:textColor="#f0ebe0"
+                android:textSize="16sp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Kaydet"
             android:textSize="16sp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:textColor="#0a0618"/>
 
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:text="Ekle"
-        android:textSize="16sp"
-        android:textColor="#0a0618"
-        android:backgroundTint="#e8c87a"/>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
