@@ -29,8 +29,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"/>
 
-    <!-- İnce ayırıcı çizgi -->
-    <View
+    <!-- İnce ayırıcı çizgi — View yerine TextView (RemoteViews MIUI whitelist) -->
+    <TextView
         android:layout_width="1dp"
         android:layout_height="20dp"
         android:background="#44e8c87a"
