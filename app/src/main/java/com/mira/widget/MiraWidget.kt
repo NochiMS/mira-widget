@@ -65,22 +65,23 @@ class MiraWidget : AppWidgetProvider() {
             return Triple(years, months, days)
         }
 
+        fun buildViews(context: Context): RemoteViews {
+            val today = LocalDate.now()
+            val (years, months, days) = calculateAge(today)
+            val totalMonths = years * 12 + months
+            val emoji   = getStageEmoji(totalMonths)
+            val ageText = "${years}y  ${months}a  ${days}g"
+            val views = RemoteViews(context.packageName, R.layout.widget_mira)
+            views.setTextViewText(R.id.tv_emoji, emoji)
+            views.setTextViewText(R.id.tv_age, ageText)
+            return views
+        }
+
         fun updateAllWidgets(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
             if (ids.isEmpty()) return
-
-            val today = LocalDate.now()
-            val (years, months, days) = calculateAge(today)
-            val totalMonths = years * 12 + months
-
-            val emoji   = getStageEmoji(totalMonths)
-            val ageText = "${years}y  ${months}a  ${days}g"
-
-            val views = RemoteViews(context.packageName, R.layout.widget_mira)
-            views.setTextViewText(R.id.tv_emoji, emoji)
-            views.setTextViewText(R.id.tv_age, ageText)
-            manager.updateAppWidget(ids, views)
+            manager.updateAppWidget(ids, buildViews(context))
         }
 
         /**
@@ -115,8 +116,9 @@ class MiraWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        updateAllWidgets(context)
-        scheduleMidnightUpdate(context)
+        // Doğrudan gelen ID'leri kullan — getAppWidgetIds() race condition yok
+        appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context))
+        try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -125,7 +127,7 @@ class MiraWidget : AppWidgetProvider() {
             ACTION_UPDATE,
             Intent.ACTION_BOOT_COMPLETED -> {
                 updateAllWidgets(context)
-                scheduleMidnightUpdate(context)
+                try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
             }
         }
     }
@@ -133,7 +135,7 @@ class MiraWidget : AppWidgetProvider() {
     // Widget ilk eklendiğinde
     override fun onEnabled(context: Context) {
         updateAllWidgets(context)
-        scheduleMidnightUpdate(context)
+        try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
     }
 
     // Son widget kaldırıldığında alarmı iptal et
