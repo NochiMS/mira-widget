@@ -21,6 +21,8 @@ class MiraWidget : AppWidgetProvider() {
         private const val BIRTH_YEAR  = 2026
         private const val BIRTH_MONTH = 3
         private const val BIRTH_DAY   = 19
+        private const val ROLLOVER_HOUR   = 11
+        private const val ROLLOVER_MINUTE = 30
 
         private fun getStageEmoji(totalMonths: Int): String = when {
             totalMonths < 1   -> "🌸"
@@ -37,6 +39,15 @@ class MiraWidget : AppWidgetProvider() {
             totalMonths < 72  -> "📚"
             totalMonths < 96  -> "🎯"
             else              -> "🌟"
+        }
+
+        private fun effectiveToday(): LocalDate {
+            val now = Calendar.getInstance()
+            val h = now.get(Calendar.HOUR_OF_DAY)
+            val m = now.get(Calendar.MINUTE)
+            val before = h < ROLLOVER_HOUR || (h == ROLLOVER_HOUR && m < ROLLOVER_MINUTE)
+            val today = LocalDate.now()
+            return if (before) today.minusDays(1) else today
         }
 
         private fun calculateAge(today: LocalDate): Triple<Int, Int, Int> {
@@ -66,7 +77,7 @@ class MiraWidget : AppWidgetProvider() {
             }
 
         fun buildViews(context: Context): RemoteViews {
-            val today = LocalDate.now()
+            val today = effectiveToday()
             val (years, months, days) = calculateAge(today)
             val totalMonths = years * 12 + months
             val autoEmoji = getStageEmoji(totalMonths)
@@ -147,21 +158,36 @@ class MiraWidget : AppWidgetProvider() {
         }
 
         fun scheduleMidnightUpdate(context: Context) {
+            scheduleNextRollover(context)
+        }
+
+        private fun scheduleNextRollover(context: Context) {
             val alarm  = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MiraWidget::class.java).apply { action = ACTION_UPDATE }
             val pi     = PendingIntent.getBroadcast(
                 context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
-            val midnight = Calendar.getInstance().apply {
-                add(Calendar.DAY_OF_YEAR, 1)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
+            val target = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, ROLLOVER_HOUR)
+                set(Calendar.MINUTE, ROLLOVER_MINUTE)
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
+                if (timeInMillis <= System.currentTimeMillis()) {
+                    add(Calendar.DAY_OF_YEAR, 1)
+                }
             }
-            alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, midnight.timeInMillis, pi)
+            try {
+                if (android.os.Build.VERSION.SDK_INT >= 23) {
+                    alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, target.timeInMillis, pi)
+                } else {
+                    alarm.setExact(AlarmManager.RTC_WAKEUP, target.timeInMillis, pi)
+                }
+            } catch (_: SecurityException) {
+                alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, target.timeInMillis, pi)
+            }
         }
+
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
