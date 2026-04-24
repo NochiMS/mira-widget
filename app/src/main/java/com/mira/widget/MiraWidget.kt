@@ -153,8 +153,10 @@ class MiraWidget : AppWidgetProvider() {
                 val manager = AppWidgetManager.getInstance(context)
                 val ids = manager.getAppWidgetIds(ComponentName(context, MiraWidget::class.java))
                 if (ids.isEmpty()) return
-                manager.updateAppWidget(ids, buildViews(context))
-            } catch (_: Exception) { }
+                val views = try { buildViews(context) }
+                            catch (_: Throwable) { RemoteViews(context.packageName, R.layout.widget_mira) }
+                manager.updateAppWidget(ids, views)
+            } catch (_: Throwable) { }
         }
 
         fun scheduleMidnightUpdate(context: Context) {
@@ -192,8 +194,10 @@ class MiraWidget : AppWidgetProvider() {
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        try { appWidgetManager.updateAppWidget(appWidgetIds, buildViews(context)) } catch (_: Exception) { }
-        try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
+        val views = try { buildViews(context) }
+                    catch (_: Throwable) { RemoteViews(context.packageName, R.layout.widget_mira) }
+        try { appWidgetManager.updateAppWidget(appWidgetIds, views) } catch (_: Throwable) { }
+        try { scheduleMidnightUpdate(context) } catch (_: Throwable) { }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -203,16 +207,16 @@ class MiraWidget : AppWidgetProvider() {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
                 updateAllWidgets(context)
-                try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
-                try { MiraUpdateWorker.schedule(context) } catch (_: Exception) { }
+                try { scheduleMidnightUpdate(context) } catch (_: Throwable) { }
+                try { MiraUpdateWorker.schedule(context) } catch (_: Throwable) { }
             }
         }
     }
 
     override fun onEnabled(context: Context) {
         updateAllWidgets(context)
-        try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
-        try { MiraUpdateWorker.schedule(context) } catch (_: Exception) { }
+        try { scheduleMidnightUpdate(context) } catch (_: Throwable) { }
+        try { MiraUpdateWorker.schedule(context) } catch (_: Throwable) { }
     }
 
     override fun onDisabled(context: Context) {
