@@ -53,6 +53,9 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical" android:layout_marginBottom="28dp">
 
+            <RadioButton android:id="@+id/rb_xsmall" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="En Küçük" android:textColor="#888888" android:textSize="11sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
             <RadioButton android:id="@+id/rb_small" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Küçük" android:textColor="#c0bab0" android:textSize="13sp"
                 android:paddingTop="8dp" android:paddingBottom="8dp"/>
@@ -61,6 +64,9 @@
                 android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
             <RadioButton android:id="@+id/rb_large" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Büyük" android:textColor="#f0ebe0" android:textSize="20sp"
+                android:paddingTop="8dp" android:paddingBottom="8dp"/>
+            <RadioButton android:id="@+id/rb_large_xl" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Az Büyük" android:textColor="#f0ebe0" android:textSize="23sp"
                 android:paddingTop="8dp" android:paddingBottom="8dp"/>
             <RadioButton android:id="@+id/rb_xlarge" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Çok Büyük" android:textColor="#f0ebe0" android:textSize="25sp"
@@ -110,6 +116,24 @@
             <RadioButton android:id="@+id/rb_name_yellow" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Sarı" android:textColor="#FFEE55" android:textSize="17sp"
                 android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_red" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Kırmızı" android:textColor="#FF6B6B" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_cyan" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Cyan" android:textColor="#60E0FF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_lime" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lime" android:textColor="#AAFF60" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_peach" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Şeftali" android:textColor="#FFB07A" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_lavender" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lavanta" android:textColor="#D4AAFF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_name_silver" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Gümüş" android:textColor="#CCCCCC" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
         </RadioGroup>
 
@@ -151,6 +175,24 @@
                 android:paddingTop="7dp" android:paddingBottom="7dp"/>
             <RadioButton android:id="@+id/rb_age_yellow" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Sarı" android:textColor="#FFEE55" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_red" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Kırmızı" android:textColor="#FF6B6B" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_cyan" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Cyan" android:textColor="#60E0FF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_lime" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lime" android:textColor="#AAFF60" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_peach" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Şeftali" android:textColor="#FFB07A" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_lavender" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lavanta" android:textColor="#D4AAFF" android:textSize="17sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_age_silver" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Gümüş" android:textColor="#CCCCCC" android:textSize="17sp"
                 android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
         </RadioGroup>
@@ -228,6 +270,21 @@
                 android:paddingTop="7dp" android:paddingBottom="7dp"/>
             <RadioButton android:id="@+id/rb_transparent" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Şeffaf" android:textColor="#666666" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_crimson" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Koyu Kırmızı" android:textColor="#CC4444" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_midnight" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Gece Mavisi" android:textColor="#3333AA" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_forest" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Orman Yeşili" android:textColor="#2A6030" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_amber" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Kehribar" android:textColor="#AA6600" android:textSize="15sp"
+                android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            <RadioButton android:id="@+id/rb_bg_slate" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Arduvaz" android:textColor="#5555AA" android:textSize="15sp"
                 android:paddingTop="7dp" android:paddingBottom="7dp"/>
 
         </RadioGroup>

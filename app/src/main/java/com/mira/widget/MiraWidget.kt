@@ -73,6 +73,12 @@ class MiraWidget : AppWidgetProvider() {
                 "orange"   -> 0xFFFFA060.toInt()
                 "mint"     -> 0xFF70FFD0.toInt()
                 "yellow"   -> 0xFFFFEE55.toInt()
+                "red"      -> 0xFFFF6B6B.toInt()
+                "cyan"     -> 0xFF60E0FF.toInt()
+                "lime"     -> 0xFFAAFF60.toInt()
+                "peach"    -> 0xFFFFB07A.toInt()
+                "lavender" -> 0xFFD4AAFF.toInt()
+                "silver"   -> 0xFFCCCCCC.toInt()
                 else       -> 0xFFE8C87A.toInt()  // gold
             }
 
@@ -94,11 +100,13 @@ class MiraWidget : AppWidgetProvider() {
 
             // Font + hizalamaya göre layout
             val layoutId = when (prefs.getString("font", "medium")) {
-                "small"   -> if (isDouble) R.layout.widget_mira_small_double   else R.layout.widget_mira_small
-                "large"   -> if (isDouble) R.layout.widget_mira_large_double   else R.layout.widget_mira_large
-                "xlarge"  -> if (isDouble) R.layout.widget_mira_xlarge_double  else R.layout.widget_mira_xlarge
-                "xxlarge" -> if (isDouble) R.layout.widget_mira_xxlarge_double else R.layout.widget_mira_xxlarge
-                else      -> if (isDouble) R.layout.widget_mira_double         else R.layout.widget_mira
+                "xsmall"   -> if (isDouble) R.layout.widget_mira_xsmall_double   else R.layout.widget_mira_xsmall
+                "small"    -> if (isDouble) R.layout.widget_mira_small_double    else R.layout.widget_mira_small
+                "large"    -> if (isDouble) R.layout.widget_mira_large_double    else R.layout.widget_mira_large
+                "large_xl" -> if (isDouble) R.layout.widget_mira_large_xl_double else R.layout.widget_mira_large_xl
+                "xlarge"   -> if (isDouble) R.layout.widget_mira_xlarge_double   else R.layout.widget_mira_xlarge
+                "xxlarge"  -> if (isDouble) R.layout.widget_mira_xxlarge_double  else R.layout.widget_mira_xxlarge
+                else       -> if (isDouble) R.layout.widget_mira_double          else R.layout.widget_mira
             }
 
             val views = RemoteViews(context.packageName, layoutId)
@@ -111,11 +119,13 @@ class MiraWidget : AppWidgetProvider() {
                 val density = context.resources.displayMetrics.density
                 val scale   = context.resources.displayMetrics.scaledDensity
                 val (cellDp, emojiSp) = when (prefs.getString("font", "medium")) {
-                    "small"   -> 34 to 20
-                    "large"   -> 60 to 38
-                    "xlarge"  -> 74 to 48
-                    "xxlarge" -> 92 to 60
-                    else      -> 46 to 28
+                    "xsmall"   -> 26 to 15
+                    "small"    -> 34 to 20
+                    "large"    -> 60 to 38
+                    "large_xl" -> 67 to 43
+                    "xlarge"   -> 74 to 48
+                    "xxlarge"  -> 92 to 60
+                    else       -> 46 to 28
                 }
                 val cellPx  = (cellDp * density).toInt()
                 val emojiPx = (emojiSp * scale).toInt()
@@ -131,18 +141,23 @@ class MiraWidget : AppWidgetProvider() {
             views.setTextColor(R.id.tv_name, colorFor(prefs, "color_name", "gold"))
             views.setTextColor(R.id.tv_age,  colorFor(prefs, "color_age",  "white"))
 
-            // Arka plan
+            // Arka plan — drawable ile yuvarlak köşe korunur
             when (prefs.getString("bg", "dark")) {
                 "transparent" -> views.setInt(R.id.widget_root, "setBackgroundColor", Color.TRANSPARENT)
-                "black"  -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xEE000000.toInt())
-                "navy"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC0a0d3b.toInt())
-                "green"  -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC081a0e.toInt())
-                "purple" -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC1a0a2e.toInt())
-                "rose"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC2e0a14.toInt())
-                "teal"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC051a1a.toInt())
-                "orange" -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC1f0800.toInt())
-                "gray"   -> views.setInt(R.id.widget_root, "setBackgroundColor", 0xCC252535.toInt())
-                // "dark" → XML drawable varsayılanı kullanılır, değiştirilmez
+                "black"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_black)
+                "navy"     -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_navy)
+                "green"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_green)
+                "purple"   -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_purple)
+                "rose"     -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_rose)
+                "teal"     -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_teal)
+                "orange"   -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_orange)
+                "gray"     -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_gray)
+                "crimson"  -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_crimson)
+                "midnight" -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_midnight)
+                "forest"   -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_forest)
+                "amber"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_amber)
+                "slate"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_slate)
+                // "dark" → XML drawable varsayılanı, değiştirilmez
             }
 
             return views

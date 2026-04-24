@@ -43,11 +43,13 @@ class MiraWidgetConfigureActivity : Activity() {
         // Font boyutu
         val rgFont = findViewById<RadioGroup>(R.id.rg_font)
         when (prefs.getString("font", "medium")) {
-            "small"   -> rgFont.check(R.id.rb_small)
-            "large"   -> rgFont.check(R.id.rb_large)
-            "xlarge"  -> rgFont.check(R.id.rb_xlarge)
-            "xxlarge" -> rgFont.check(R.id.rb_xxlarge)
-            else      -> rgFont.check(R.id.rb_medium)
+            "xsmall"   -> rgFont.check(R.id.rb_xsmall)
+            "small"    -> rgFont.check(R.id.rb_small)
+            "large"    -> rgFont.check(R.id.rb_large)
+            "large_xl" -> rgFont.check(R.id.rb_large_xl)
+            "xlarge"   -> rgFont.check(R.id.rb_xlarge)
+            "xxlarge"  -> rgFont.check(R.id.rb_xxlarge)
+            else       -> rgFont.check(R.id.rb_medium)
         }
 
         // Mira rengi
@@ -62,6 +64,12 @@ class MiraWidgetConfigureActivity : Activity() {
             "orange"   -> rgNameColor.check(R.id.rb_name_orange)
             "mint"     -> rgNameColor.check(R.id.rb_name_mint)
             "yellow"   -> rgNameColor.check(R.id.rb_name_yellow)
+            "red"      -> rgNameColor.check(R.id.rb_name_red)
+            "cyan"     -> rgNameColor.check(R.id.rb_name_cyan)
+            "lime"     -> rgNameColor.check(R.id.rb_name_lime)
+            "peach"    -> rgNameColor.check(R.id.rb_name_peach)
+            "lavender" -> rgNameColor.check(R.id.rb_name_lavender)
+            "silver"   -> rgNameColor.check(R.id.rb_name_silver)
             else       -> rgNameColor.check(R.id.rb_name_gold)
         }
 
@@ -77,6 +85,12 @@ class MiraWidgetConfigureActivity : Activity() {
             "orange"   -> rgAgeColor.check(R.id.rb_age_orange)
             "mint"     -> rgAgeColor.check(R.id.rb_age_mint)
             "yellow"   -> rgAgeColor.check(R.id.rb_age_yellow)
+            "red"      -> rgAgeColor.check(R.id.rb_age_red)
+            "cyan"     -> rgAgeColor.check(R.id.rb_age_cyan)
+            "lime"     -> rgAgeColor.check(R.id.rb_age_lime)
+            "peach"    -> rgAgeColor.check(R.id.rb_age_peach)
+            "lavender" -> rgAgeColor.check(R.id.rb_age_lavender)
+            "silver"   -> rgAgeColor.check(R.id.rb_age_silver)
             else       -> rgAgeColor.check(R.id.rb_age_white)
         }
 
@@ -112,24 +126,34 @@ class MiraWidgetConfigureActivity : Activity() {
             ) "custom" else "auto"
 
             val font = when (rgFont.checkedRadioButtonId) {
-                R.id.rb_small   -> "small";  R.id.rb_large -> "large"
-                R.id.rb_xlarge  -> "xlarge"; R.id.rb_xxlarge -> "xxlarge"
-                else            -> "medium"
+                R.id.rb_xsmall   -> "xsmall"
+                R.id.rb_small    -> "small"
+                R.id.rb_large    -> "large"
+                R.id.rb_large_xl -> "large_xl"
+                R.id.rb_xlarge   -> "xlarge"
+                R.id.rb_xxlarge  -> "xxlarge"
+                else             -> "medium"
             }
             val nameColor = when (rgNameColor.checkedRadioButtonId) {
-                R.id.rb_name_white    -> "white";  R.id.rb_name_purple -> "purple"
-                R.id.rb_name_teal     -> "teal";   R.id.rb_name_blue -> "blue"
-                R.id.rb_name_darkgray -> "darkgray"
-                R.id.rb_name_pink     -> "pink";   R.id.rb_name_orange -> "orange"
-                R.id.rb_name_mint     -> "mint";   R.id.rb_name_yellow -> "yellow"
+                R.id.rb_name_white    -> "white";    R.id.rb_name_purple   -> "purple"
+                R.id.rb_name_teal     -> "teal";     R.id.rb_name_blue     -> "blue"
+                R.id.rb_name_darkgray -> "darkgray"; R.id.rb_name_pink     -> "pink"
+                R.id.rb_name_orange   -> "orange";   R.id.rb_name_mint     -> "mint"
+                R.id.rb_name_yellow   -> "yellow";   R.id.rb_name_red      -> "red"
+                R.id.rb_name_cyan     -> "cyan";     R.id.rb_name_lime     -> "lime"
+                R.id.rb_name_peach    -> "peach";    R.id.rb_name_lavender -> "lavender"
+                R.id.rb_name_silver   -> "silver"
                 else -> "gold"
             }
             val ageColor = when (rgAgeColor.checkedRadioButtonId) {
-                R.id.rb_age_gold     -> "gold";   R.id.rb_age_purple -> "purple"
-                R.id.rb_age_teal     -> "teal";   R.id.rb_age_blue -> "blue"
-                R.id.rb_age_darkgray -> "darkgray"
-                R.id.rb_age_pink     -> "pink";   R.id.rb_age_orange -> "orange"
-                R.id.rb_age_mint     -> "mint";   R.id.rb_age_yellow -> "yellow"
+                R.id.rb_age_gold     -> "gold";     R.id.rb_age_purple   -> "purple"
+                R.id.rb_age_teal     -> "teal";     R.id.rb_age_blue     -> "blue"
+                R.id.rb_age_darkgray -> "darkgray"; R.id.rb_age_pink     -> "pink"
+                R.id.rb_age_orange   -> "orange";   R.id.rb_age_mint     -> "mint"
+                R.id.rb_age_yellow   -> "yellow";   R.id.rb_age_red      -> "red"
+                R.id.rb_age_cyan     -> "cyan";     R.id.rb_age_lime     -> "lime"
+                R.id.rb_age_peach    -> "peach";    R.id.rb_age_lavender -> "lavender"
+                R.id.rb_age_silver   -> "silver"
                 else -> "white"
             }
             val align = when (rgAlign.checkedRadioButtonId) {
@@ -139,15 +163,20 @@ class MiraWidgetConfigureActivity : Activity() {
                 else                     -> "left"
             }
             val bg = when (rgBg.checkedRadioButtonId) {
-                R.id.rb_bg_black  -> "black"
-                R.id.rb_bg_navy   -> "navy"
-                R.id.rb_bg_green  -> "green"
-                R.id.rb_bg_purple -> "purple"
-                R.id.rb_bg_rose   -> "rose"
-                R.id.rb_bg_teal   -> "teal"
-                R.id.rb_bg_orange -> "orange"
-                R.id.rb_bg_gray   -> "gray"
+                R.id.rb_bg_black    -> "black"
+                R.id.rb_bg_navy     -> "navy"
+                R.id.rb_bg_green    -> "green"
+                R.id.rb_bg_purple   -> "purple"
+                R.id.rb_bg_rose     -> "rose"
+                R.id.rb_bg_teal     -> "teal"
+                R.id.rb_bg_orange   -> "orange"
+                R.id.rb_bg_gray     -> "gray"
                 R.id.rb_transparent -> "transparent"
+                R.id.rb_bg_crimson  -> "crimson"
+                R.id.rb_bg_midnight -> "midnight"
+                R.id.rb_bg_forest   -> "forest"
+                R.id.rb_bg_amber    -> "amber"
+                R.id.rb_bg_slate    -> "slate"
                 else -> "dark"
             }
 

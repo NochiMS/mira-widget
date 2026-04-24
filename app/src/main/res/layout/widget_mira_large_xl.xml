@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/widget_bg"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp">
+
+    <TextView
+        android:id="@+id/tv_emoji"
+        android:layout_width="67dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="43sp"
+        android:gravity="left|center_vertical"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mira"
+        android:textColor="#e8c87a"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"/>
+
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="29dp"
+        android:background="#55e8c87a"
+        android:layout_marginEnd="13dp"/>
+
+    <TextView
+        android:id="@+id/tv_age"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:textColor="#f0ebe0"
+        android:textSize="24sp"/>
+
+</LinearLayout>
