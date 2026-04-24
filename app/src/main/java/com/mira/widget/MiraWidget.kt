@@ -159,6 +159,7 @@ class MiraWidget : AppWidgetProvider() {
 
         fun scheduleMidnightUpdate(context: Context) {
             scheduleNextRollover(context)
+            MiraUpdateWorker.schedule(context)
         }
 
         private fun scheduleNextRollover(context: Context) {
@@ -203,6 +204,7 @@ class MiraWidget : AppWidgetProvider() {
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
                 updateAllWidgets(context)
                 try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
+                try { MiraUpdateWorker.schedule(context) } catch (_: Exception) { }
             }
         }
     }
@@ -210,6 +212,7 @@ class MiraWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         updateAllWidgets(context)
         try { scheduleMidnightUpdate(context) } catch (_: Exception) { }
+        try { MiraUpdateWorker.schedule(context) } catch (_: Exception) { }
     }
 
     override fun onDisabled(context: Context) {
