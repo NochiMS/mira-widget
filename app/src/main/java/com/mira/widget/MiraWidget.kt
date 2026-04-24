@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.TypedValue
 import android.widget.RemoteViews
 import java.time.LocalDate
 import java.util.Calendar
@@ -89,44 +90,35 @@ class MiraWidget : AppWidgetProvider() {
             val autoEmoji = getStageEmoji(totalMonths)
             val ageText   = "${years}y  ${months}a  ${days}g"
 
-            val prefs  = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            val align  = prefs.getString("align", "left") ?: "left"
+            val prefs    = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val align    = prefs.getString("align", "left") ?: "left"
             val isDouble = align == "double"
 
-            // Emoji içeriği — otomatik veya özel seçim
+            val emojiSp = prefs.getInt("font_emoji", 28).coerceIn(8, 80).toFloat()
+            val nameSp  = prefs.getInt("font_name",  19).coerceIn(8, 60).toFloat()
+            val ageSp   = prefs.getInt("font_age",   16).coerceIn(8, 50).toFloat()
+
             val emoji = if (prefs.getString("emoji_mode", "auto") == "custom")
                 prefs.getString("emoji_custom", autoEmoji) ?: autoEmoji
             else autoEmoji
 
-            // Font + hizalamaya göre layout
-            val layoutId = when (prefs.getString("font", "medium")) {
-                "xsmall"   -> if (isDouble) R.layout.widget_mira_xsmall_double   else R.layout.widget_mira_xsmall
-                "small"    -> if (isDouble) R.layout.widget_mira_small_double    else R.layout.widget_mira_small
-                "large"    -> if (isDouble) R.layout.widget_mira_large_double    else R.layout.widget_mira_large
-                "large_xl" -> if (isDouble) R.layout.widget_mira_large_xl_double else R.layout.widget_mira_large_xl
-                "xlarge"   -> if (isDouble) R.layout.widget_mira_xlarge_double   else R.layout.widget_mira_xlarge
-                "xxlarge"  -> if (isDouble) R.layout.widget_mira_xxlarge_double  else R.layout.widget_mira_xxlarge
-                else       -> if (isDouble) R.layout.widget_mira_double          else R.layout.widget_mira
-            }
+            val layoutId = if (isDouble) R.layout.widget_mira_double else R.layout.widget_mira
 
             val views = RemoteViews(context.packageName, layoutId)
             views.setTextViewText(R.id.tv_emoji, emoji)
             views.setTextViewText(R.id.tv_age, ageText)
             if (isDouble) views.setTextViewText(R.id.tv_emoji_right, emoji)
 
-            // Emoji hizalaması — setViewPadding (native RemoteViews, MIUI uyumlu)
+            views.setTextViewTextSize(R.id.tv_emoji, TypedValue.COMPLEX_UNIT_SP, emojiSp)
+            views.setTextViewTextSize(R.id.tv_name,  TypedValue.COMPLEX_UNIT_SP, nameSp)
+            views.setTextViewTextSize(R.id.tv_age,   TypedValue.COMPLEX_UNIT_SP, ageSp)
+            if (isDouble) views.setTextViewTextSize(R.id.tv_emoji_right, TypedValue.COMPLEX_UNIT_SP, emojiSp)
+
+            // Emoji hizalaması
             if (!isDouble) {
                 val density = context.resources.displayMetrics.density
                 val scale   = context.resources.displayMetrics.scaledDensity
-                val (cellDp, emojiSp) = when (prefs.getString("font", "medium")) {
-                    "xsmall"   -> 26 to 15
-                    "small"    -> 34 to 20
-                    "large"    -> 60 to 38
-                    "large_xl" -> 67 to 43
-                    "xlarge"   -> 74 to 48
-                    "xxlarge"  -> 92 to 60
-                    else       -> 46 to 28
-                }
+                val cellDp  = (emojiSp * 1.8f).toInt()
                 val cellPx  = (cellDp * density).toInt()
                 val emojiPx = (emojiSp * scale).toInt()
                 val leftPx  = when (align) {
@@ -157,7 +149,6 @@ class MiraWidget : AppWidgetProvider() {
                 "forest"   -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_forest)
                 "amber"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_amber)
                 "slate"    -> views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.widget_bg_slate)
-                // "dark" → XML drawable varsayılanı, değiştirilmez
             }
 
             return views
@@ -205,7 +196,6 @@ class MiraWidget : AppWidgetProvider() {
                 alarm.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, target.timeInMillis, pi)
             }
         }
-
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

@@ -13,6 +13,9 @@ class MiraWidgetConfigureActivity : Activity() {
 
     private var selectedCustomEmoji: String = ""
     private var selectedEmojiView: TextView? = null
+    private var fontEmojiSp: Int = 28
+    private var fontNameSp: Int = 19
+    private var fontAgeSp: Int = 16
 
     private val emojiList = listOf(
         "🌸","🌱","🌼","🦋","🧸","🧭","👣",
@@ -40,16 +43,36 @@ class MiraWidgetConfigureActivity : Activity() {
         // Emoji grid oluştur
         buildEmojiGrid(prefs)
 
-        // Font boyutu
-        val rgFont = findViewById<RadioGroup>(R.id.rg_font)
-        when (prefs.getString("font", "medium")) {
-            "xsmall"   -> rgFont.check(R.id.rb_xsmall)
-            "small"    -> rgFont.check(R.id.rb_small)
-            "large"    -> rgFont.check(R.id.rb_large)
-            "large_xl" -> rgFont.check(R.id.rb_large_xl)
-            "xlarge"   -> rgFont.check(R.id.rb_xlarge)
-            "xxlarge"  -> rgFont.check(R.id.rb_xxlarge)
-            else       -> rgFont.check(R.id.rb_medium)
+        // Font boyutu +/- kontrolleri
+        fontEmojiSp = prefs.getInt("font_emoji", 28).coerceIn(8, 80)
+        fontNameSp  = prefs.getInt("font_name",  19).coerceIn(8, 60)
+        fontAgeSp   = prefs.getInt("font_age",   16).coerceIn(8, 50)
+
+        val tvEmojiSize = findViewById<TextView>(R.id.tv_emoji_size)
+        val tvNameSize  = findViewById<TextView>(R.id.tv_name_size)
+        val tvAgeSize   = findViewById<TextView>(R.id.tv_age_size)
+
+        tvEmojiSize.text = fontEmojiSp.toString()
+        tvNameSize.text  = fontNameSp.toString()
+        tvAgeSize.text   = fontAgeSp.toString()
+
+        findViewById<Button>(R.id.btn_emoji_minus).setOnClickListener {
+            if (fontEmojiSp > 8) { fontEmojiSp--; tvEmojiSize.text = fontEmojiSp.toString() }
+        }
+        findViewById<Button>(R.id.btn_emoji_plus).setOnClickListener {
+            if (fontEmojiSp < 80) { fontEmojiSp++; tvEmojiSize.text = fontEmojiSp.toString() }
+        }
+        findViewById<Button>(R.id.btn_name_minus).setOnClickListener {
+            if (fontNameSp > 8) { fontNameSp--; tvNameSize.text = fontNameSp.toString() }
+        }
+        findViewById<Button>(R.id.btn_name_plus).setOnClickListener {
+            if (fontNameSp < 60) { fontNameSp++; tvNameSize.text = fontNameSp.toString() }
+        }
+        findViewById<Button>(R.id.btn_age_minus).setOnClickListener {
+            if (fontAgeSp > 8) { fontAgeSp--; tvAgeSize.text = fontAgeSp.toString() }
+        }
+        findViewById<Button>(R.id.btn_age_plus).setOnClickListener {
+            if (fontAgeSp < 50) { fontAgeSp++; tvAgeSize.text = fontAgeSp.toString() }
         }
 
         // Mira rengi
@@ -115,6 +138,11 @@ class MiraWidgetConfigureActivity : Activity() {
             "orange"      -> rgBg.check(R.id.rb_bg_orange)
             "gray"        -> rgBg.check(R.id.rb_bg_gray)
             "transparent" -> rgBg.check(R.id.rb_transparent)
+            "crimson"     -> rgBg.check(R.id.rb_bg_crimson)
+            "midnight"    -> rgBg.check(R.id.rb_bg_midnight)
+            "forest"      -> rgBg.check(R.id.rb_bg_forest)
+            "amber"       -> rgBg.check(R.id.rb_bg_amber)
+            "slate"       -> rgBg.check(R.id.rb_bg_slate)
             else          -> rgBg.check(R.id.rb_dark)
         }
 
@@ -125,15 +153,6 @@ class MiraWidgetConfigureActivity : Activity() {
                 && selectedCustomEmoji.isNotEmpty()
             ) "custom" else "auto"
 
-            val font = when (rgFont.checkedRadioButtonId) {
-                R.id.rb_xsmall   -> "xsmall"
-                R.id.rb_small    -> "small"
-                R.id.rb_large    -> "large"
-                R.id.rb_large_xl -> "large_xl"
-                R.id.rb_xlarge   -> "xlarge"
-                R.id.rb_xxlarge  -> "xxlarge"
-                else             -> "medium"
-            }
             val nameColor = when (rgNameColor.checkedRadioButtonId) {
                 R.id.rb_name_white    -> "white";    R.id.rb_name_purple   -> "purple"
                 R.id.rb_name_teal     -> "teal";     R.id.rb_name_blue     -> "blue"
@@ -183,7 +202,9 @@ class MiraWidgetConfigureActivity : Activity() {
             prefs.edit()
                 .putString("emoji_mode",   emojiMode)
                 .putString("emoji_custom", selectedCustomEmoji)
-                .putString("font",         font)
+                .putInt("font_emoji",      fontEmojiSp)
+                .putInt("font_name",       fontNameSp)
+                .putInt("font_age",        fontAgeSp)
                 .putString("color_name",   nameColor)
                 .putString("color_age",    ageColor)
                 .putString("align",        align)

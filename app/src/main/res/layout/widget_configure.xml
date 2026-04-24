@@ -49,33 +49,44 @@
             android:text="YAZI BOYUTU" android:textColor="#888888"
             android:textSize="12sp" android:layout_marginBottom="10dp"/>
 
-        <RadioGroup android:id="@+id/rg_font"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_marginBottom="28dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Emoji" android:textColor="#f0ebe0" android:textSize="15sp"/>
+            <Button android:id="@+id/btn_emoji_minus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="−" android:textSize="22sp" android:padding="0dp"/>
+            <TextView android:id="@+id/tv_emoji_size" android:layout_width="48dp" android:layout_height="wrap_content"
+                android:text="28" android:textColor="#e8c87a" android:textSize="15sp" android:gravity="center"/>
+            <Button android:id="@+id/btn_emoji_plus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="+" android:textSize="22sp" android:padding="0dp"/>
+        </LinearLayout>
 
-            <RadioButton android:id="@+id/rb_xsmall" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="En Küçük" android:textColor="#888888" android:textSize="11sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_small" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Küçük" android:textColor="#c0bab0" android:textSize="13sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_medium" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Orta" android:textColor="#f0ebe0" android:textSize="16sp"
-                android:checked="true" android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_large" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Büyük" android:textColor="#f0ebe0" android:textSize="20sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_large_xl" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Az Büyük" android:textColor="#f0ebe0" android:textSize="23sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_xlarge" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Çok Büyük" android:textColor="#f0ebe0" android:textSize="25sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
-            <RadioButton android:id="@+id/rb_xxlarge" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Çok Çok Büyük" android:textColor="#f0ebe0" android:textSize="31sp"
-                android:paddingTop="8dp" android:paddingBottom="8dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Mira Yazısı" android:textColor="#f0ebe0" android:textSize="15sp"/>
+            <Button android:id="@+id/btn_name_minus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="−" android:textSize="22sp" android:padding="0dp"/>
+            <TextView android:id="@+id/tv_name_size" android:layout_width="48dp" android:layout_height="wrap_content"
+                android:text="19" android:textColor="#e8c87a" android:textSize="15sp" android:gravity="center"/>
+            <Button android:id="@+id/btn_name_plus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="+" android:textSize="22sp" android:padding="0dp"/>
+        </LinearLayout>
 
-        </RadioGroup>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="28dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Yaş Metni" android:textColor="#f0ebe0" android:textSize="15sp"/>
+            <Button android:id="@+id/btn_age_minus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="−" android:textSize="22sp" android:padding="0dp"/>
+            <TextView android:id="@+id/tv_age_size" android:layout_width="48dp" android:layout_height="wrap_content"
+                android:text="16" android:textColor="#e8c87a" android:textSize="15sp" android:gravity="center"/>
+            <Button android:id="@+id/btn_age_plus" android:layout_width="44dp" android:layout_height="44dp"
+                android:text="+" android:textSize="22sp" android:padding="0dp"/>
+        </LinearLayout>
 
         <!-- MİRA İSMİ RENGİ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
